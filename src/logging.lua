@@ -12,6 +12,7 @@ local type, table, string, _tostring, tonumber = type, table, string, tostring, 
 local select = select
 local error = error
 local format = string.format
+local pcall = pcall
 
 module("logging")
 
@@ -169,7 +170,7 @@ function tostring(value)
         table.insert(auxTable, tostring(i))
       end
     end)
-    table.sort(auxTable)
+    pcall(table.sort, auxTable)
 
     str = str..'{'
     local separator = ""
@@ -178,7 +179,7 @@ function tostring(value)
       if ((tonumber(fieldName)) and (tonumber(fieldName) > 0)) then
         entry = tostring(value[tonumber(fieldName)])
       else
-        entry = fieldName.." = "..tostring(value[fieldName])
+        entry = tostring(fieldName).." = "..tostring(value[fieldName])
       end
       str = str..separator..entry
       separator = ", "
