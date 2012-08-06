@@ -14,7 +14,7 @@ local LEVEL_PREFIX = {
   [logging.FATAL] = '\27[31m[F',
 }
 
-function logging.beautifullog(filename)
+function logging.beautifullog(filename, funclevel)
 
   if type(filename) ~= "string" then
     filename = "/dev/stderr"
@@ -28,7 +28,7 @@ function logging.beautifullog(filename)
 
   return logging.new(function(self, level, message)
     local date = os.date("%m-%d %H:%M:%S")
-    local frame = debug.getinfo(4)
+    local frame = debug.getinfo(funclevel or 4)
     local s = string.format('%s %s %s:%d]\27[m %s\n',
       LEVEL_PREFIX[level], date,
       string.gsub(frame.short_src, '%.lua$', ''),
