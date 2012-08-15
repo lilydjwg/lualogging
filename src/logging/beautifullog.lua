@@ -31,7 +31,6 @@ function logging.beautifullog(filename, funclevel)
     local frame = debug.getinfo(funclevel or 4)
     local s = string.format('%s %s %s:%d]\27[m %s\n',
       LEVEL_PREFIX[level], date,
-      string.gsub(frame.short_src, '%.lua$', ''),
       frame.currentline,
       message
     )
