@@ -16,6 +16,7 @@ local select = select
 local error = error
 local format = string.format
 local pcall = pcall
+local print = print
 local getmetatable, rawget = getmetatable, rawget
 local ipairs, pairs = ipairs, pairs
 
@@ -178,8 +179,11 @@ end
 -- Converts Table fields in alphabetical order
 -------------------------------------------------------------------------------
 function tostring(value, visited)
-  self_tostring = rawget(getmetatable(value) or {}, '__tostring')
-  if self_tostring then return self_tostring(value) end
+  local meta = getmetatable(value)
+  if type(meta) == 'table' then
+    self_tostring = rawget(meta, '__tostring')
+    if self_tostring then return self_tostring(value) end
+  end
   local str = ''
   if visited == nil then
     if value ~= nil then
