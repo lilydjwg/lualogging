@@ -185,17 +185,6 @@ function tostring(value, visited)
     if self_tostring then return self_tostring(value) end
   end
   local str = ''
-  if visited == nil then
-    if value ~= nil then
-      visited = {
-        [value] = true
-      }
-    end
-  elseif visited[value] then
-    return _tostring(value)
-  else
-    visited[value] = true
-  end
 
   if type(value) ~= 'table' then
     if type(value) == 'string' then
@@ -204,6 +193,18 @@ function tostring(value, visited)
       str = _tostring(value)
     end
   else
+    if visited == nil then
+      if value ~= nil then
+        visited = {
+          [value] = true
+        }
+      end
+    elseif visited[value] then
+      return _tostring(value)
+    else
+      visited[value] = true
+    end
+
     local tmp = {}
     for k, v in ipairs(value) do
       table.insert(tmp, tostring(v, visited))
